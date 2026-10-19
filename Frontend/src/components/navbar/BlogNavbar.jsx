@@ -22,24 +22,24 @@ const NavBar = (props) => {
         <Navbar.Brand as={Link} to="/">
           <img className="blog-navbar-brand" alt="logo" src={logo} />
         </Navbar.Brand>
-        <div>
+        <div className="links-nav">
           <Link to={"/"}>HOME</Link>
           <Link to={"/profile"}>PROFILE</Link>
-        </div>
-      {token && (
-        <div className="account-utilities-navbar">
           <Button
             as={Link}
             to="/new"
             className="blog-navbar-add-button bg-dark"
-            size="lg"
           >
             <PlusCircle />
             <span>Nuovo Articolo</span>
           </Button>
-          <div>
+        </div>
+      {token && (
+        <div className="account-utilities-navbar">
+          <Button className="nav-profile" as={Link} to={"/profile"}>
             <img className="avatar-author" src={authorData?.avatar} />
-          </div>
+            <span>{authorData?.name}</span>
+          </Button>
           <LogOut className="btn-logout" onClick={handleLogout} />
         </div>
       )}

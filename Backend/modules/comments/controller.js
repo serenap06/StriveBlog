@@ -12,7 +12,7 @@ const findAllComments = async (req, res, next) => {
       });
     }
     const comments = await commentService.findAllComments(blogPostId);
-    if (!comments || comments.length === 0) {
+    if (!comments) {
       return res.status(404).send({
         statusCode: 404,
         message: "No comments found",
@@ -60,6 +60,8 @@ const findOneComment = async (req, res, next) => {
 const createComment = async (req, res, next) => {
   const { blogPostId } = req.params;
   const { text } = req.body;
+
+  const authorId = req.user?._id || req.author?._id;
   try {
     if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
       return res.status(400).send({
@@ -67,11 +69,11 @@ const createComment = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const comment = await commentService.createComment({ text }, blogPostId);
+    const comment = await commentService.createComment({ text, author:authorId}, blogPostId);
     if (!comment) {
       return res.status(404).send({
         statusCode: 404,
-        message: "No blogPost found",
+        message: "No Comments found",
       });
     }
     res.status(201).send({

@@ -24,9 +24,9 @@ passport.use(googleStrategy)
 //import routes
 const authRouter = require("./modules/auth/routes");
 server.use("/auth", authRouter);
-server.use(authenticate);
 const authorsRoute = require("./modules/authors/routes");
 server.use("/authors", authorsRoute);
+server.use(authenticate);
 const blogPostsRoute = require("./modules/blogPosts/routes");
 server.use("/blogPosts", blogPostsRoute);
 const commentsRoute= require("./modules/comments/routes");

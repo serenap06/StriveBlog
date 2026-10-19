@@ -1,53 +1,135 @@
-import React, { useCallback, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import React, { useContext, useState } from "react";
+import { Button, Container, Form,Alert } from "react-bootstrap";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles.css";
-import {convertToRaw} from "draft-js"
-import draftToHtml from "draftjs-to-html"
-const NewBlogPost = props => {
-  const [text, setText] = useState("");
-  const handleChange = useCallback(value => {
-    
-    setText(draftToHtml(value));
-    console.log(text)
-    // console.log(convertToRaw(value.getCurrentContent()))
+import { convertToRaw, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../services/api";
+
+const NewBlogPost = (props) => {
+  const { token } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "Generico",
   });
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const onEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    const htmlContent = draftToHtml(
+      convertToRaw(editorState.getCurrentContent()),
+    );
+    const payload = {
+      title: formData.title,
+      category: formData.category,
+      content: htmlContent,
+    };
+    try {
+      const response = await fetch(`${API_URL}/blogPosts`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        throw new Error("Errore durante la creazione del post");
+      }
+      navigate("/");
+    } catch (e) {
+      console.error(e);
+      setError("Impossibile creare il post");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <Container className="new-blog-container">
-      <Form className="mt-5">
+      <h2>Crea un nuovo post</h2>
+      {error && <Alert>{error}</Alert>}
+      <Form className="mt-5" onSubmit={handleSubmit}>
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Titolo</Form.Label>
-          <Form.Control size="lg" placeholder="Title" />
+          <Form.Control
+            size="lg"
+            placeholder="Title"
+            name="title"
+            value={formData.title}
+            onChange={handleChangeInput}
+            required
+          />
         </Form.Group>
         <Form.Group controlId="blog-category" className="mt-3">
           <Form.Label>Categoria</Form.Label>
-          <Form.Control size="lg" as="select">
-            <option>Categoria 1</option>
-            <option>Categoria 2</option>
-            <option>Categoria 3</option>
-            <option>Categoria 4</option>
-            <option>Categoria 5</option>
+          <Form.Control
+            size="lg"
+            as="select"
+            name="category"
+            value={formData.category}
+            onChange={handleChangeInput}
+          >
+            <option>Generico</option>
+            <option>Economia Circolare</option>
+            <option>Storie & Attivismo</option>
+            <option>Biodiversità & Animali</option>
+            <option>Green Tech & Innovazione</option>
           </Form.Control>
         </Form.Group>
         <Form.Group controlId="blog-content" className="mt-3">
           <Form.Label>Contenuto Blog</Form.Label>
 
-          <Editor value={text} onChange={handleChange} className="new-blog-content" />
+          <Editor
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+            className="new-blog-content"
+            wrapperClassName="wrapper-class"
+              editorClassName="editor-class"
+              toolbarClassName="toolbar-class"
+          />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-end">
-          <Button type="reset" size="lg" variant="outline-dark">
+          <Button type="button" 
+            size="lg" 
+            variant="outline-dark"
+            onClick={() => {
+              setFormData({ title: "", category: "Generico" });
+              setEditorState(EditorState.createEmpty());
+            }}
+          >
             Reset
           </Button>
           <Button
             type="submit"
             size="lg"
             variant="dark"
-            style={{
-              marginLeft: "1em",
-            }}
+            style={{ marginLeft: "1em" }}
+            disabled={isLoading}
           >
-            Invia
+            {isLoading ? "Invio in corso..." : "Invia"}
           </Button>
         </Form.Group>
       </Form>

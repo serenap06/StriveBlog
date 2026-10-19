@@ -143,7 +143,7 @@ const deleteBlogPost = async (req, res, next) => {
         message: "Invalid id",
       });
     }
-    const deletedPost = await blogPostService.deleteblogPost(blogPostId);
+    const deletedPost = await blogPostService.deleteBlogPost(blogPostId);
     if (!deletedPost) {
       return res.status(404).send({
         statusCode: 404,

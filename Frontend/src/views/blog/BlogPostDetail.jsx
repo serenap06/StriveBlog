@@ -7,6 +7,7 @@ import "./styles.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { API_URL } from "../../services/api";
 import { Clock } from "lucide-react";
+import CommentList from "../../components/comments/CommentList";
 
 const BlogPostDetail = () => {
   const { id } = useParams();
@@ -54,7 +55,7 @@ const BlogPostDetail = () => {
       <Container>
         <Image className="blog-details-cover" src={postData.cover} fluid />
         <h1 className="blog-details-title">{postData.title}</h1>
-        <div 
+        <div
           className="blog-content mb-4"
           dangerouslySetInnerHTML={{ __html: postData.content }}
         />
@@ -63,7 +64,7 @@ const BlogPostDetail = () => {
             <BlogAuthor author={postData.author} />
           </div>
           <div className="blog-details-info">
-            <div>
+            <div className="data">
               <Clock />
               {postData.createdAt}
             </div>
@@ -76,6 +77,7 @@ const BlogPostDetail = () => {
             </div>
           </div>
         </div>
+        <CommentList />
       </Container>
     </div>
   );

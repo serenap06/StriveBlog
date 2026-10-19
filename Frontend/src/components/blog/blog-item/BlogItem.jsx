@@ -13,7 +13,7 @@ const BlogItem = ({ post }) => {
   const { title, cover, author, _id, content, category } = post;
 
   const { token } = useContext(AuthContext);
-  const {getBlogPosts} =useContext(BlogPostContext);
+  const { getBlogPosts } = useContext(BlogPostContext);
 
   const deleteBlogPost = async () => {
     try {
@@ -24,16 +24,15 @@ const BlogItem = ({ post }) => {
           "Content-Type": "application/json",
         },
       });
-      if(response.ok){
-        getBlogPosts(post._id)
+      if (response.ok) {
+        getBlogPosts(post._id);
       }
     } catch (e) {
       console.log(e);
-    } finally{
-      getBlogPosts()
+    } finally {
+      getBlogPosts();
     }
   };
-
 
   return (
     <Card className="blog-card">
@@ -47,7 +46,10 @@ const BlogItem = ({ post }) => {
               {category.toUpperCase()}
             </CardSubtitle>
           </Card.Header>
-          <Card.Text className="blogPost-content" dangerouslySetInnerHTML={{ __html: content }}></Card.Text>
+          <Card.Text
+            className="blogPost-content"
+            dangerouslySetInnerHTML={{ __html: content }}
+          ></Card.Text>
         </Card.Body>
       </Link>
       <Card.Footer className="blog-footer">
