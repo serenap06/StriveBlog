@@ -15,7 +15,7 @@ const authenticate = require("./middlewares/authenticate");
 const server = express();
 server.use(express.json());
 server.use(cors());
-//server.use(logger)
+server.use(logger)
 const passport = require("passport");
 server.use(passport.initialize())
 const googleStrategy = require("./strategies/google");
@@ -24,7 +24,7 @@ passport.use(googleStrategy)
 //import routes
 const authRouter = require("./modules/auth/routes");
 server.use("/auth", authRouter);
-//server.use(authenticate);
+server.use(authenticate);
 const authorsRoute = require("./modules/authors/routes");
 server.use("/authors", authorsRoute);
 const blogPostsRoute = require("./modules/blogPosts/routes");

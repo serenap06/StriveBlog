@@ -5,7 +5,7 @@ const blogPostService = require("./service");
 const findAll = async (req, res, next) => {
   try {
     const blogPosts = await blogPostService.findAll();
-    if (!blogPosts || blogPosts.length === 0) {
+    if (!blogPosts) {
       return res.status(404).send({
         statusCode: 404,
         message: "No Posts found",
@@ -48,12 +48,13 @@ const findOne = async (req, res, next) => {
 };
 
 const create = async (req, res, next) => {
-  const { category, title, content } = req.body;
+  const { category, title, content, cover} = req.body;
   try {
     const blogPost = await blogPostService.create({
       category,
       title,
       content,
+      cover,
       author: req.author,
     });
     res.status(201).send({
@@ -133,7 +134,7 @@ const uploadCover = async (req, res, next) => {
   }
 };
 
-const deleteblogPost = async (req, res, next) => {
+const deleteBlogPost = async (req, res, next) => {
   const { blogPostId } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
@@ -165,5 +166,5 @@ module.exports = {
   create,
   update,
   uploadCover,
-  delete: deleteblogPost,
+  deleteBlogPost,
 };

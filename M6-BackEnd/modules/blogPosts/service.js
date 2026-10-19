@@ -9,6 +9,7 @@ const findOne = async (blogPostId) => {
   return await BlogPost.findById(blogPostId).populate("author");
 };
 const create = async (postData) => {
+  console.log(postData)
   const blogPost = new BlogPost(postData);
   const savedPost = await blogPost.save();
 
@@ -19,7 +20,7 @@ const create = async (postData) => {
       },
       {
         $push: {
-          posts: { posts: savedPost._id },
+          posts: savedPost._id ,
         },
       },
     );
@@ -34,7 +35,7 @@ const update = async (blogPostId, updateData) => {
     runValidators: true,
   });
 };
-const deleteblogPost = async (blogPostId) => {
+const deleteBlogPost = async (blogPostId) => {
   const deletedPost = await BlogPost.findByIdAndDelete(blogPostId);
   if (deletedPost.author) {
     await Author.updateOne(
@@ -43,7 +44,7 @@ const deleteblogPost = async (blogPostId) => {
       },
       {
         $pull: {
-          posts: { posts: deletedPost._id },
+          posts: deletedPost._id ,
         },
       },
     );
@@ -55,5 +56,5 @@ module.exports = {
   findOne,
   create,
   update,
-  deleteblogPost,
+  deleteBlogPost,
 };

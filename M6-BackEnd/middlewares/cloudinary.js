@@ -13,7 +13,7 @@ const cloudinaryStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "StriveBlog",
-    allowed_format: ["png", "jpg", "jpeg"],
+    allowed_formats: ["png", "jpg", "jpeg"],
   },
 });
 

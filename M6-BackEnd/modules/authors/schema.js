@@ -6,14 +6,14 @@ const authorSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      min: 1,
-      max: 255,
+      minlength: 1,
+      maxlength: 255,
     },
     surname: {
       type: String,
       required: true,
-      min: 1,
-      max: 255,
+      minlength: 1,
+      maxlength: 255,
     },
     email: {
       type: String,
@@ -22,12 +22,12 @@ const authorSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       select: false,
     },
-    googleID:{
-      type:String,
-      unique:true
+    googleID: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
     dob: {
       type: String,
@@ -37,11 +37,19 @@ const authorSchema = new mongoose.Schema(
     avatar: {
       type: String,
       required: false,
+      default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     },
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "BlogPost",
+        default: [],
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
         default: [],
       },
     ],
@@ -57,7 +65,6 @@ authorSchema.pre("save", async function () {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   } catch (e) {
-    next(e);
     throw e;
   }
 });

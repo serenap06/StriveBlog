@@ -16,6 +16,6 @@ router.patch(
   commentController.updateComment,
 ); // PATCH/EDIT a specific comment of a blogPost
 
-// router.delete("/:blogPostId/comments/:commentId", commentController.deleteComment); // DELETE a specific comment of a blogPost
+router.delete("/:blogPostId/comments/:commentId", commentController.deleteComment); // DELETE a specific comment of a blogPost
 
 module.exports = router;

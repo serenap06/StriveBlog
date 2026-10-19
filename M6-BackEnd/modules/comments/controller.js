@@ -1,6 +1,6 @@
 // Comments controller
 const { default: mongoose } = require("mongoose");
-const blogPostService = require("../blogPosts/service");
+const commentService = require("./service");
 
 const findAllComments = async (req, res, next) => {
   const { blogPostId } = req.params;
@@ -11,7 +11,7 @@ const findAllComments = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const comments = await blogPostService.findAllComments(blogPostId);
+    const comments = await commentService.findAllComments(blogPostId);
     if (!comments || comments.length === 0) {
       return res.status(404).send({
         statusCode: 404,
@@ -40,7 +40,7 @@ const findOneComment = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const comment = await blogPostService.findOneComment(commentId, blogPostId);
+    const comment = await commentService.findOneComment(commentId, blogPostId);
     if (!comment) {
       return res.status(404).send({
         statusCode: 404,
@@ -67,7 +67,7 @@ const createComment = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const comment = await blogPostService.createComment({ text }, blogPostId);
+    const comment = await commentService.createComment({ text }, blogPostId);
     if (!comment) {
       return res.status(404).send({
         statusCode: 404,
@@ -95,7 +95,7 @@ const updateComment = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const updatedComment = await blogPostService.updateComment(commentId, {
+    const updatedComment = await commentService.updateComment(commentId, {
       text,
     });
     if (!updatedComment) {
@@ -124,7 +124,7 @@ const deleteComment = async (req, res, next) => {
         message: "Invalid Id",
       });
     }
-    const result = await blogPostService.deleteComment(commentId);
+    const result = await commentService.deleteComment(commentId);
     if (!result) {
       return res.status(404).send({
         statusCode: 404,
@@ -146,5 +146,5 @@ module.exports = {
   findOneComment,
   createComment,
   updateComment,
-  delete: deleteComment,
+  deleteComment,
 };

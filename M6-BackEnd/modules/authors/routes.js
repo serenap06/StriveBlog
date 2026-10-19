@@ -16,6 +16,6 @@ router.patch(
   authorController.uploadAvatar,
 );
 
-router.delete("/:authorId", authorController.delete);
+router.delete("/:authorId", authorController.deleteAuthor);
 
 module.exports = router;

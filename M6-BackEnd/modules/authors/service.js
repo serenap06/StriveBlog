@@ -1,7 +1,7 @@
 const Author = require("./schema");
 
 const findAll = async () => {
-  return await Author.find().populate("posts");
+  return await Author.find().populate(["posts", "comments"]);
 };
 
 const findOne = async (authorId) => {

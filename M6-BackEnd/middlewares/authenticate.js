@@ -1,21 +1,27 @@
 const jwt = require("jsonwebtoken");
 const Author = require("../modules/authors/schema");
 const authenticate = (req, res, next) => {
-  const authHeader = req.header.authorization;
+  const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {
     return res.status(401).send({
       statusCode: 401,
-      message: "Token not valid",
+      message: "Token not valid 1",
     });
   }
 
   const jwtToken = authHeader.split(" ")[1];
+  if (!jwtToken) {
+    return res.status(401).send({
+      statusCode: 401,
+      message: "Token missing",
+    });
+  }
   jwt.verify(jwtToken, process.env.JWT_SECRET, async function (err, payload) {
     if (err) {
       return res.status(401).send({
         statusCode: 401,
-        message: "Token not valid",
+        message: "Token not valid 2",
       });
     }
     try {

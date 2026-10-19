@@ -16,6 +16,6 @@ router.patch(
   blogPostController.uploadCover,
 ); // PATCH/EDIT a blogPost cover
 
-router.delete("/:blogPostId", blogPostController.delete); // DELETE a blogPost
+router.delete("/:blogPostId", blogPostController.deleteBlogPost); // DELETE a blogPost
 
 module.exports = router;

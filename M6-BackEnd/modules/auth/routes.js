@@ -3,7 +3,6 @@ const authRouter = express.Router();
 const authController = require("../auth/controller");
 const authenticate = require("../../middlewares/authenticate");
 const passport = require("passport");
-const { recompileSchema } = require("../authors/schema");
 //routes
 authRouter.get("/me", authenticate, authController.me);
 authRouter.post("/login", authController.login);
