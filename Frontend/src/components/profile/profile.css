@@ -1,0 +1,13 @@
+.container-author{
+    margin: 2em;
+}
+.avatar{
+    width: 3em;
+    height: 3em;
+    object-fit: cover;
+}
+.author-title{
+    display: flex;
+    align-items: start;
+    gap:1em;
+}

@@ -1,0 +1,46 @@
+.blog-navbar{
+  margin-left: 1em;
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+}
+.navbar{
+  display: flex;
+  align-items: end;
+justify-content: space-between;
+}
+.account-utilities-navbar{
+  display: flex;
+  align-items: center;
+  align-self: end;
+  gap: 1em;
+}
+
+a{
+  margin-right: 2em;
+  text-decoration: none;
+  font-size: 0.9em;
+  color: green;
+  font-weight: 600;
+}
+.blog-navbar-brand {
+  width: 180px;
+}
+
+.blog-navbar-add-button {
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 160px;
+  text-decoration: none;
+  font-size: 1.05em;
+}
+.blog-navbar-add-button{
+  font-size: 0.8em;
+  text-wrap: nowrap;
+  align-self: end;
+}
+.btn-logout{
+  cursor: pointer;
+}

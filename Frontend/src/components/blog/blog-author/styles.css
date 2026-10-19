@@ -1,0 +1,10 @@
+.avatar-author {
+  width: 20px;
+  height: 20px;
+
+}
+.row-author{
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}

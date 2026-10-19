@@ -1,0 +1,18 @@
+.blogPostList{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.card{
+    margin-bottom: 100px;
+}
+.add-first-post-col{
+    text-align: left;
+    font-size: 1.2em;
+    margin: 2em;
+}
+.add-button{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    justify-content: left;
+}

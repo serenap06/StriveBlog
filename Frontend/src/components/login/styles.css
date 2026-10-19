@@ -1,0 +1,28 @@
+.row-logged{
+    margin-left: 2em;
+    margin-top: 2em;
+}
+h1{
+    color: rgb(0, 77, 0);
+}
+.email, .password{
+    margin-bottom: 1em;
+}
+
+.form-group{
+    text-align: center;
+}
+
+.btn-form{
+    color: white;
+    background-color: green;
+    border-radius: 1em;
+    border-style: hidden;
+    font-size: 0.8em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+
