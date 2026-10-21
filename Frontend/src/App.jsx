@@ -8,7 +8,7 @@ import { BlogPostProvider } from "./contexts/BlogPostContext";
 import AuthProvider from "./contexts/AuthContext";
 import BlogPostDetail from "./views/blog/BlogPostDetail";
 import Login from "./components/login/Login";
-
+import SignUp from "./components/signUp/SignUp"
 function App() {
   return (
     <AuthProvider>
@@ -17,6 +17,7 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp/>} />
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/blogPosts/:id" element={<BlogPostDetail />} />

@@ -1,8 +1,13 @@
-
-.blog-main-title {
-  font-size: 3rem;
+.btn-login {
+  margin: 0;
+  color: #006233;
+  font-size: 2rem;
   font-weight: bolder;
-  margin-top: 50px;
+}
+.blog-main-title {
+  font-size: 2rem;
+  font-weight: bolder;
+  margin-top: 2em;
   margin-bottom: 50px;
   color: #008645;
 }

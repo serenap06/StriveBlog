@@ -1,13 +1,19 @@
-.container-author{
-    margin: 2em;
+.container-author {
+  margin: 2em;
 }
-.avatar{
-    width: 3em;
-    height: 3em;
-    object-fit: cover;
+
+.avatar {
+  width: 5em;
+  height: 5em;
+  object-fit: cover;
+  border-radius: 0.5em;
 }
-.author-title{
-    display: flex;
-    align-items: start;
-    gap:1em;
+.input{
+    margin-right: -3em;
+}
+.author-name{
+    margin-bottom: 2.5em;
+}
+.author-img {
+  color: green;
 }

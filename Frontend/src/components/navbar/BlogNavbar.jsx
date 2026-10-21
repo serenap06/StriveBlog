@@ -22,9 +22,11 @@ const NavBar = (props) => {
         <Navbar.Brand as={Link} to="/">
           <img className="blog-navbar-brand" alt="logo" src={logo} />
         </Navbar.Brand>
+        {token && (
+          <>
         <div className="links-nav">
-          <Link to={"/"}>HOME</Link>
-          <Link to={"/profile"}>PROFILE</Link>
+          <Link to={"/"}>POST</Link>
+          <Link to={"/profile"}>PROFILO</Link>
           <Button
             as={Link}
             to="/new"
@@ -34,7 +36,7 @@ const NavBar = (props) => {
             <span>Nuovo Articolo</span>
           </Button>
         </div>
-      {token && (
+      
         <div className="account-utilities-navbar">
           <Button className="nav-profile" as={Link} to={"/profile"}>
             <img className="avatar-author" src={authorData?.avatar} />
@@ -42,6 +44,7 @@ const NavBar = (props) => {
           </Button>
           <LogOut className="btn-logout" onClick={handleLogout} />
         </div>
+        </>
       )}
        </Container>
     </Navbar>

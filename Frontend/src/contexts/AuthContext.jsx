@@ -7,18 +7,7 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [authorData, setAuthorData] = useState(null)
 
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
-      if (!authorData) {
-        fetchAuthor(token);
-      }
-    } else {
-      localStorage.removeItem("token");
-      setAuthorData(null);
-    }
-  }, [token]);
-
+ 
   const fetchAuthor = async (currentToken) => {
     try {
       const response = await fetch(`${API_URL}/auth/me`, {
@@ -38,6 +27,20 @@ const AuthProvider = ({ children }) => {
       console.error("Errore nel recupero dell'utente")
     }
   };
+
+   useEffect(() => {
+    
+    if (token) {
+      localStorage.setItem("token", token);
+      if (!authorData) {
+        fetchAuthor(token);
+      }
+    } else {
+      localStorage.removeItem("token");
+      setAuthorData(null);
+    }
+  }, [token]);
+
   return (
     <AuthContext.Provider
       value={{

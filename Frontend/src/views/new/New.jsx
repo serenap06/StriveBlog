@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Container, Form,Alert } from "react-bootstrap";
+import { Button, Container, Form, Alert, FormGroup } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles.css";
@@ -22,6 +22,8 @@ const NewBlogPost = (props) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [coverFile, setCoverFile] = useState(null);
+
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -33,6 +35,10 @@ const NewBlogPost = (props) => {
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
   };
+
+  const handleChangeCover =(e)=>{
+    setCoverFile(e.target.files[0])
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,6 +65,22 @@ const NewBlogPost = (props) => {
       if (!response.ok) {
         throw new Error("Errore durante la creazione del post");
       }
+      const newPost = await response.json()
+      const blogPostId = newPost.blogPost?._id
+      if (coverFile && blogPostId) {
+        const coverFormData = new FormData()
+        coverFormData.append("cover",coverFile)
+        const coverResponse = await fetch(`${API_URL}/blogPosts/${blogPostId}/cover`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: coverFormData,
+      })
+      if (!coverResponse.ok) {
+          throw new Error("Post creato, ma c'è stato un errore nel caricamento della copertina");
+        }
+      }
       navigate("/");
     } catch (e) {
       console.error(e);
@@ -67,6 +89,8 @@ const NewBlogPost = (props) => {
       setIsLoading(false);
     }
   };
+
+
   return (
     <Container className="new-blog-container">
       <h2>Crea un nuovo post</h2>
@@ -81,6 +105,16 @@ const NewBlogPost = (props) => {
             value={formData.title}
             onChange={handleChangeInput}
             required
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Immagine di Copertina</Form.Label>
+          <input
+            type="file"
+            name="cover"
+            accept="image/*"
+            className="form-control"
+            onChange={handleChangeCover}
           />
         </Form.Group>
         <Form.Group controlId="blog-category" className="mt-3">
@@ -107,13 +141,14 @@ const NewBlogPost = (props) => {
             onEditorStateChange={onEditorStateChange}
             className="new-blog-content"
             wrapperClassName="wrapper-class"
-              editorClassName="editor-class"
-              toolbarClassName="toolbar-class"
+            editorClassName="editor-class"
+            toolbarClassName="toolbar-class"
           />
         </Form.Group>
         <Form.Group className="d-flex mt-3 justify-content-end">
-          <Button type="button" 
-            size="lg" 
+          <Button
+            type="button"
+            size="lg"
             variant="outline-dark"
             onClick={() => {
               setFormData({ title: "", category: "Generico" });

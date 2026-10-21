@@ -2,13 +2,15 @@ import { useContext, useState } from "react";
 import { API_URL } from "../../services/api";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import { FaGoogle } from "react-icons/fa";
 
 export const Login = () => {
   const [formData, setFormData] = useState({});
-  const { token, setToken, author, setAuthor } = useContext(AuthContext);
+  const { token, setToken } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
@@ -27,11 +29,16 @@ export const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
+      if (!response.ok) {
+        setErrorMessage("Email o password errati");
+        return;
+      }
       setToken(data.token);
-      console.log(token)
+      console.log(token);
       navigate("/");
     } catch (e) {
       console.error(e);
+      setErrorMessage("Errore di connessione al server");
     }
   };
   return (
@@ -49,7 +56,8 @@ export const Login = () => {
             <h1>Login</h1>
           </Row>
           <Row>
-            <Col>
+            <Col className="col-form">
+              {errorMessage && <Alert className="alert-error">{errorMessage}</Alert>}
               <Form className="form-group" onSubmit={onSubmit}>
                 <Form.Group controlId="email" className="email">
                   <Form.Control
@@ -73,9 +81,31 @@ export const Login = () => {
                   variant="success"
                   type="submit"
                 >
-                  Sign in
+                  Accedi
                 </Button>
               </Form>
+            </Col>
+            <Col className="col-btn">
+              <Button
+                as={Link}
+                to={"/signup"}
+                className="btn btn-form btn-signUp"
+                variant="success"
+                type="submit"
+              >
+                Registrati
+              </Button>
+              <Button
+                as={Link}
+                to={"/signup"}
+                className="btn btn-form btn-signUp btn-google"
+                variant="success"
+                type="submit"
+              >
+                {" "}
+                <FaGoogle />
+                Accedi con Google
+              </Button>
             </Col>
           </Row>
         </>
