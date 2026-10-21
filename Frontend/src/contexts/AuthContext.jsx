@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
       }
     } else {
       localStorage.removeItem("token");
-      setAuthorData(null);
+      localStorage.removeItem("author");
     }
   }, [token]);
 

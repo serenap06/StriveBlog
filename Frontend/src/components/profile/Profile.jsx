@@ -16,7 +16,7 @@ const Profile = () => {
   const handleChangeAvatar = (e) => {
     setAvatarFile(e.target.files[0]);
   };
-
+  
   const uploadAvatar = async (e) => {
     if (!avatarFile) {
       setError("Seleziona un'immagine");

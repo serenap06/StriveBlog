@@ -136,11 +136,32 @@ const uploadCover = async (req, res, next) => {
 
 const deleteBlogPost = async (req, res, next) => {
   const { blogPostId } = req.params;
+  const currentAuthorId = req.author;
   try {
     if (!mongoose.Types.ObjectId.isValid(blogPostId)) {
       return res.status(400).send({
         statusCode: 400,
         message: "Invalid id",
+      });
+    }
+    if (!mongoose.Types.ObjectId.isValid(currentAuthorId)) {
+      return res.status(400).send({
+        statusCode: 400,
+        message: "Invalid id",
+      });
+    }
+    const post = await blogPostService.findOne(blogPostId)
+    if (!post) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Post not found",
+      });
+    }
+    const postAuthorId = post.author._id ? post.author._id.toString() : post.author.toString();
+    if (postAuthorId !== currentAuthorId.toString()) {
+      return res.status(403).send({
+        statusCode: 403,
+        message: "Non sei autorizzato a cancellare questo post",
       });
     }
     const deletedPost = await blogPostService.deleteBlogPost(blogPostId);
